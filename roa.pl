@@ -5,6 +5,8 @@ use Data::Dumper; # OPT - REMOVE ME BEFORE COMMITING
 use FindBin;
 use Date::Format;
 
+START:
+
 # Clear the screen
 print `clear`;
 
@@ -67,7 +69,7 @@ print "Folders initalised!\n";
 
 sub processDirectory()
 {
-	my ($uiObj,$path) = @_;
+	my ($uiObj,$path,$prefix) = @_;
 
 	my $tDir = opendir(DIR,$path) or die $!;
 
@@ -76,8 +78,8 @@ sub processDirectory()
 		# Make sure its not the PWD and the upper directory nor a temp? file
 		if($file ne "." and $file ne ".." and $file !~ /~/)
 		{
-			$targetFile = ($completedPath . "/" . $file);
-			parseFile($uiObj,$targetFile);
+			$targetFile = ($path . "/" . $file);
+			parseFile($uiObj,$targetFile,$prefix);
 		}
 	}
 
@@ -86,7 +88,7 @@ sub processDirectory()
 
 sub parseFile()
 {
-	my ($uiObj,$path) = @_;
+	my ($uiObj,$path,$prefix) = @_;
 
 	my $doc = new XML::Simple;
 
@@ -97,7 +99,8 @@ sub parseFile()
 	my $msg_type = $data->{message_type};
 	my $date_create = $data->{date_created};
 	
-	my $timeStr = time2str("[%d/%b %H:%M] ",$date_create);
+	my $timeStr = time2str("[%d/%b %H:%M]",$date_create);
+	my $strText = ($prefix . $timeStr);
 
 	if($msg_type eq "INFORMAL")
 	{
@@ -116,13 +119,9 @@ sub parseFile()
 			$msgExcpt = $fullMsg;
 		}
 		
-		my $strText = ($timeStr . " - INFORMAL - " . $msgExcpt);
+		$strText = $strText . " - INFORMAL - " . $msgExcpt;
 
-		my @tValues = $uiObj->{values} + $path;
-		$uiObj->insert_at(0,$path);
-		$uiObj->add_labels({ $path => $strText });
-		$uiObj->layout();
-		$uiObj->draw();
+		
 	}
 	elsif($msg_type eq "FORMAL")
 	{
@@ -131,7 +130,27 @@ sub parseFile()
 	elsif($msg_type eq "MOVEMENT")
 	{
 		# Something
+		my $fullMsg = $data->{message_content}->{message};
+		
+		my $maxLen = 45;
+		my $msgExcpt = "";
+
+		if(length($fullMsg) > $maxLen)
+		{
+			$msgExcpt = (substr $fullMsg,0,$maxLen) . "...";
+		}
+		else
+		{
+			$msgExcpt = $fullMsg;
+		}
+		
+		$strText = $strText . " - MOVEMENT - " . $msgExcpt;
 	}
+
+	$uiObj->insert_at(0,$path);
+	$uiObj->add_labels({ $path => $strText });
+	$uiObj->layout();
+	$uiObj->draw();
 }
 
 #exit;
@@ -244,11 +263,42 @@ sub active_entry_select()
 {
 	$t_lbox = $listbox2;
 	$sel_id = $t_lbox->get();
-	if($sel_id eq 99)
-	{
-		exit_dialog();
-	}
 	
+	my $usrChoice = $cui->dialog(
+		-message => 'Please choose one of the following',
+		-buttons => [
+			{
+				-label => 'Complete',
+				-value => 1,
+				-shortcut => 1,
+			},
+			{
+				-label => 'Edit',
+				-value => 2,
+				-shortcut => 2,
+			},
+			{
+				-label => 'Cancel',
+				-value => 3,
+				-shortcut => 3,
+			},
+		],
+	);
+	
+	if($usrChoice == 1)
+	{
+		`mv $sel_id $completedPath`;
+		exit 1337;
+	}
+	if($usrChoice == 2)
+	{
+		&not_implemented("edit message");
+	}
+	if($usrChoice == 3)
+	{
+		$listbox2->focus();
+	}
+
 	$t_lbox->clear_selection();
 }
 
@@ -264,6 +314,27 @@ sub complete_entry_select()
 	$t_lbox->clear_selection();
 }
 
+sub flush_listboxes()
+{
+	# Flush the ui
+	$listbox2->values([]);
+	$listbox2->labels([]);
+	$listbox->values([]);
+	$listbox->labels([]);	
+}
+
+sub redraw_listboxes()
+{
+	#&flush_listboxes();
+
+	# Populate the GUI with data
+	# - Active Items, with not sent being first
+	&processDirectory($listbox2, $not_sentPath,"[NOT SENT]");
+	&processDirectory($listbox2, $in_progressPath,"[PENDING]");
+
+	# - Completed Items
+	&processDirectory($listbox, $completedPath,"");
+}
 
 
 # Menu Shortcuts
@@ -280,16 +351,14 @@ $cui->set_binding( \&new_movement_msg, "\cH");
 # For some random reason we want to focus the top listbox, maybe I will remember why one day...
 $listbox2->focus();
 
-# Populate the GUI with data
-# - Active Items, with not sent being first
-&processDirectory($listbox2, $not_sentPath);
-&processDirectory($listbox2, $in_progressPath);
-
-# - Completed Items
-&processDirectory($listbox, $completedPath);
+# Pop our listboxes
+redraw_listboxes();
 
 # start the event loop
-while(1)
+#$cui->mainloop();
+
+my $shouldExit = 0;
+while($shouldExit == 0)
 {
 	# Trigger events
 	$cui->{-read_timeout}=0;
@@ -301,5 +370,6 @@ while(1)
 	$dateTimeLabel->draw;
 
 	# This might be tweakable for more performance/lower system impact
-	sleep 0.1;
+	sleep 0.01;
 }
+goto START;
