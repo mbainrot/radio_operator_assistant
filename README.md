@@ -27,6 +27,7 @@ Depends:
 - Perl
 - CPAN
 - Curses::UI and it's dependancies
+- XML::Simple?
 
 Installation:
 1) Untar the script into a folder in which you have write/create permissions and then run. It will automatically create the directories that you need to be able to work.
