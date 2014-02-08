@@ -2,8 +2,8 @@
 	<operator_name>Bob the Builder</operator_name>
 	<operator_call>VK1ACMA</operator_call>
 	<operator_op_call>CP3 Start</operator_op_call>
-	<date_created>2014-02-06T07:06:00+00:00</date_created>
-	<date_modified>2014-02-06T07:06:00+00:00</date_modified>
+	<date_created>1391826909</date_created>
+	<date_modified>1391826909</date_modified>
 	<message_type>INFORMAL</message_type>
 	<message_status>not_sent</message_status>
 	<message_content>
@@ -18,15 +18,30 @@
 	<operator_name>Bob the Builder</operator_name>
 	<operator_call>VK1ACMA</operator_call>
 	<operator_op_call>CP3</operator_op_call>
-	<date_created>2014-02-06T07:06:00+00:00</date_created>
-	<date_modified>2014-02-06T07:06:00+00:00</date_modified>
+	<date_created>1391826909</date_created>
+	<date_modified>1391826909</date_modified>
 	<message_type>FORMAL</message_type>
 	<message_status>not_sent</message_status>
 	<message_content>
+		<!-- THIS IS NOT COMPLETED YET! -->
 		<precedence>URGENT</precedence>
+		<serial>1</serial>
 		<to>EVENT ORGANISERS</to>
 		<from>CP3 SUPPORT CREW</from>
 		<message>CP3 IS LOW IN WATER, REQUIRE ADDITIONAL 80L OF WATER ASAP</message>
 		<response></response>
 	</message_content>
+</message>
+
+<message>
+	<operator_name>Bob the Builder</operator_name>
+	<operator_call>VK1ACMA</operator_call>
+	<operator_op_call>S3 Start</operator_op_call>
+	<date_created>1391826909</date_created>
+	<date_modified>1391826909</date_modified>
+	<message_type>MOVEMENT</message_type>
+	<message_content>
+		<message>Competitor #23 passed here at 10.25am</message>
+	</message_content>
+	<operator_notes></operator_notes>
 </message>
