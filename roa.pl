@@ -328,6 +328,13 @@ sub redraw_listboxes()
 	&processDirectory($listbox, $completedPath,"");
 }
 
+sub update_clock()
+{
+	$date = `date +"\%c"`;
+	$dateTimeLabel->text($date);
+	$dateTimeLabel->draw;
+}
+
 
 # Menu Shortcuts
 $cui->set_binding(sub {$menu->focus()}, "\cX");
@@ -346,22 +353,8 @@ $listbox2->focus();
 # Pop our listboxes
 redraw_listboxes();
 
+$cui->set_timer('update_time',\&update_clock);
+$cui->add_callback('update_time',\&update_clock);
+
 # start the event loop
-#$cui->mainloop();
-
-my $shouldExit = 0;
-while($shouldExit == 0)
-{
-	# Trigger events
-	$cui->{-read_timeout}=0;
-	$cui->do_one_event();
-
-	# Update the clock
-	$date = `date +"\%c"`;
-	$dateTimeLabel->text($date);
-	$dateTimeLabel->draw;
-
-	# This might be tweakable for more performance/lower system impact
-	sleep 0.01;
-}
-goto START;
+$cui->mainloop();
