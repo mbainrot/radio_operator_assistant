@@ -10,12 +10,19 @@ my @menu = (
     {
         -label => 'File',
         -submenu => [
-            { -label => 'New Formal Message ^F', -value => \&formal_msg   },
-            { -label => 'Exit               ^Q', -value => \&exit_dialog  }
+		{ -label => 'New Formal Message CTRL + F', -value => \&not_implemented   },
+		{ -label => 'New Informal Message CTRL + I', -value => \&not_implemented   },
+		{ -label => 'New Unit Movement CTRL + U', -value => \&not_implemented   },
+		{ -label => 'Exit               CTRL + Q', -value => \&exit_dialog  }
         ]
     },
 
 );
+
+sub not_implemented()
+{
+
+}
 
 sub exit_dialog()
 {
