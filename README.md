@@ -1,6 +1,8 @@
 radio_operators_assistant
 =========================
 
+WARNING: master branch on this repo is a DEVELOPMENT branch, things here are more than likely broken. For not so broken things, please checkout the STABLE branch, tyvm
+
 Simple tool to assist a radio operator in operating in a paperless environment. Uses perl and curses
 
 One of the major goals is to provide a reliable means of recording information in a way that enables ease of data input
