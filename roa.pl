@@ -288,7 +288,8 @@ sub active_entry_select()
 	if($usrChoice == 1)
 	{
 		`mv $sel_id $completedPath`;
-		exit 1337;
+		`touch $ourBasePath/restart.me`;
+		exit;
 	}
 	if($usrChoice == 2)
 	{
@@ -312,15 +313,6 @@ sub complete_entry_select()
 	}
 	
 	$t_lbox->clear_selection();
-}
-
-sub flush_listboxes()
-{
-	# Flush the ui
-	$listbox2->values([]);
-	$listbox2->labels([]);
-	$listbox->values([]);
-	$listbox->labels([]);	
 }
 
 sub redraw_listboxes()
