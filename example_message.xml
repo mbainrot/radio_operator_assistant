@@ -1,0 +1,32 @@
+<message>
+	<operator_name>Bob the Builder</operator_name>
+	<operator_call>VK1ACMA</operator_call>
+	<operator_op_call>CP3 Start</operator_op_call>
+	<date_created>2014-02-06T07:06:00+00:00</date_created>
+	<date_modified>2014-02-06T07:06:00+00:00</date_modified>
+	<message_type>INFORMAL</message_type>
+	<message_status>not_sent</message_status>
+	<message_content>
+		<precedence>ROUTINE</precedence>
+		<sender>OBSERVER</sender>
+		<message>TIMING OFFICIALS WOULD LIKE TO KNOW WHEN FIRST COMPETITOR IS EXPECTED TO ENTER THE TRACK</message>
+		<response></response>
+	</message_content>
+</message>
+
+<message>
+	<operator_name>Bob the Builder</operator_name>
+	<operator_call>VK1ACMA</operator_call>
+	<operator_op_call>CP3</operator_op_call>
+	<date_created>2014-02-06T07:06:00+00:00</date_created>
+	<date_modified>2014-02-06T07:06:00+00:00</date_modified>
+	<message_type>FORMAL</message_type>
+	<message_status>not_sent</message_status>
+	<message_content>
+		<precedence>URGENT</precedence>
+		<to>EVENT ORGANISERS</to>
+		<from>CP3 SUPPORT CREW</from>
+		<message>CP3 IS LOW IN WATER, REQUIRE ADDITIONAL 80L OF WATER ASAP</message>
+		<response></response>
+	</message_content>
+</message>
