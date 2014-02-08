@@ -22,6 +22,9 @@ All Message Types will have statuses, most messages will be "completed" by the o
 - Automated backing up of data to a directory (thus allowing automatic DFS/NFS backup)
 - HTTP Push to a web server of your choice
 
+Core Requirements:
+- Must be cross platform
+- Must have low CPU impact where possible
 
 Depends:
 - Perl
